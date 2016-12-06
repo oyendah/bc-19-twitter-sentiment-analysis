@@ -39,3 +39,5 @@ jspm_packages
 # dotenv
 .env
 
+# pages
+stop-words.js

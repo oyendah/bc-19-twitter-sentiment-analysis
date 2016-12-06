@@ -3,6 +3,7 @@ const Twitter = require('twitter'); // twitter API
 const watson = require('watson-developer-cloud'); //Alchemy API
 const readline = require('readline');
 const fs = require('fs');
+const wordFrequency = require('./wordFreq.js');
 require('dotenv').config();
 
 const green = '\u001b[42m \u001b[0m';
@@ -47,58 +48,26 @@ rl.question('Username: ', (answer) => {
     });
 
     //text is undefined, cant access text
-    fs.readFile('./tweets.json', 'utf8', function readFileCallback(err, data) {
+    fs.readFile('tweets.json', 'utf8', function readFileCallback(err, data) {
         if (err) {
             console.log(err);
         } else {
             obj = JSON.parse(data); //now it an object
-            for (i = 1; i <= obj.tweets.length; i++) {
-                // console.log(wordFrequency(obj.tweets[i].text));
-                console.log(obj.tweets[i].text);
-            }
-        };
-    });
-
-    rl.close();
-});
-
-// word count frequency
-function wordFrequency(s) {
-    s = s.replace(/(^\s*)|(\s*$)/gi, ""); //exclude  start and end white-space
-    s = s.replace(/[ ]{2,}/gi, " "); //2 or more space to 1
-    s = s.replace(/\n\r/, "\n"); //newline
-    s = s.replace(/[^a-zA-Z 0-9]+/g, ''); //special characters
-    const words = s.split(/\s/);
-    const wordMap = {};
-    const stop_words = ['that', 'what', 'who', 'than', 'that', 'then'];
-    for (i = 0; i < words.length; i++) {
-        for (j = 0; j < stop_words; j++) {
-            if (Object.hasOwnProperty.call(wordMap, w) && i !== j) {
-                wordMap[w] += 1;
-            } else if (!Object.prototype.hasOwnProperty.call(wordMap, w)) {
-                wordMap[w] = 1;
+            const tweetLength = obj.tweets.length
+            for (i = 0; i <= tweetLength - 1; i++) {
+                const tweet = obj.tweets[i];
+                console.log(wordFrequency(tweet.text));
+                const parameters = {
+                    text: tweet.text
+                };
+                alchemy_language.sentiment(parameters, function(err, response) {
+                    if (err)
+                        console.log('error:', err);
+                    else
+                        console.log(JSON.stringify(response, null, 2));
+                });
             }
         }
-    }
-    // words.forEach(function(w) {
-    //     //check if a word has its own property
-    //     if (Object.hasOwnProperty.call(wordMap, w)) {
-    //         wordMap[w] += 1;
-    //     } else {
-    //         wordMap[w] = 1;
-    //     }
-    // });
-    return words
-};
-
-
-// var parameters = {
-//     text: 'I like pizza hut a lot'
-// };
-
-// alchemy_language.sentiment(parameters, function(err, response) {
-//     if (err)
-//         console.log('error:', err);
-//     else
-//         console.log(JSON.stringify(response, null, 2));
-// });
+    });
+    rl.close();
+});
