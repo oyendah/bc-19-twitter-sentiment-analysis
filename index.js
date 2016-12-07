@@ -47,7 +47,6 @@ rl.question('Username: ', (answer) => {
         }
     });
 
-    //text is undefined, cant access text
     fs.readFile('tweets.json', 'utf8', function readFileCallback(err, data) {
         if (err) {
             console.log(err);
