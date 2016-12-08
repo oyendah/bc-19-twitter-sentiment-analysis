@@ -36,15 +36,6 @@ function wordFrequency(s) {
     });
     return sorted;
 }
+
 module.exports = stopWords;
 module.exports = wordFrequency;
-
-function wordCount() {
-    const words = wordFrequency("words reserved like words like prototype and there ok? words")
-    var iWordsCount = words.length; // count w/o duplicates
-    for (var i = 0; i < iWordsCount; i++) {
-        var word = words[i];
-        console.log(word.text + ' - ', word.frequency);
-    }
-}
-//console.log(wordCount());

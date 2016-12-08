@@ -2,20 +2,14 @@ require('dotenv').config();
 
 //required modules
 const Twitter = require('twitter'); // twitter API
-const watson = require('watson-developer-cloud'); //Alchemy API
+//const watson = require('watson-developer-cloud'); //Alchemy API
 const readline = require('readline');
 const Promise = require('promise');
-const bluebird = require('bluebird');
 const fs = require('fs');
-const Q = require('q');
-var alchemy = require('node_alchemy')(process.env.ALCHEMY_API_KEY);
+const alchemy = require('node_alchemy')(process.env.ALCHEMY_API_KEY);
 const wordFrequency = require('./wordFreq.js');
 var colors = require('colors/safe');
-const ProgressBar = require('progress');
-
-const alchemy_language = watson.alchemy_language({
-    api_key: process.env.ALCHEMY_API_KEY
-});
+//const ProgressBar = require('progress');
 
 const client = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -69,8 +63,8 @@ rl.question('Username: ', (username) => {
                                         });
                                     aggregate.push(p);
                                 }
+                                //**** http://jsfiddle.net/dukeytoo/02ohnth4/
                                 Promise.all(aggregate).then(function(result) {
-                                    // console.log(count);
                                     return Promise.resolve(count);
                                 }).then(conditions).then(function() {
                                     console.log('---------------------------------------------')
