@@ -135,53 +135,30 @@ rl.question('Username: ', (username) => {
 });
 
 function conditions(count) {
-    console.log(count)
+    // console.log(count)
     if (count > 0) { // positive
         return positive();
     } else if (count == 0) { //neutral
         return neutral();
     } else if (count < 0) { // negative
-        return negative;
-        // console.log('*** Sentiment Analysis Complete ***');
+        return negative();
     }
 }
 
 function positive() {
+    console.log('---------------------------------------------');
     console.log(colors.green('Sentiment Analysis: Tweets are Postive'));
     return Promise.resolve('---------------------------------------------');
 }
 
 function neutral() {
+    console.log('---------------------------------------------');
     console.log(colors.yellow('Sentiment Analysis: Tweets are Neutral'));
     return Promise.resolve('---------------------------------------------');
 }
 
 function negative() {
+    console.log('---------------------------------------------');
     console.log(colors.red('Sentiment Analysis: Tweets are Negative'));
     return Promise.resolve('---------------------------------------------');
 }
-
-// fs.readFile('tweets.json', 'utf8', function readFileCallback(err, data) {
-//     if (err) {
-//         console.log(err);
-//     } else {
-//         obj = JSON.parse(data); //now it an object
-//         const tweetLength = obj.tweets.length
-//         for (i = 0; i <= tweetLength - 1; i++) {
-//             const tweet = obj.tweets[i];
-//             console.log(wordFrequency(tweet.text));
-//             const parameters = {
-//                 text: tweet.text
-//             };
-//             alchemy_language.sentiment(parameters, function(err, response) {
-//                 if (err) {
-//                     console.log('error:', err);
-//                 } else {
-//                     console.log(JSON.stringify(response.docSentiment, null, 2));
-//                 }
-
-//             });
-//         }
-//     }
-// });
-// rl.close();
