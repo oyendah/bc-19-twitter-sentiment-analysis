@@ -83,3 +83,37 @@ function wordFrequency() {
 
 console.log(wordFrequency());
 console.log(stopWords.length);
+
+function getAddresses(members, callback) {
+    var addressList = [];
+    var count = 0;
+
+    for (var i = 0; i < members.length; i++) {
+        service.member.info({
+            name: members[i],
+            company: "Cerberus",
+        }, function(body) {
+            addressList[i] = body.address;
+            count++;
+
+            if (count === members.length) {
+                callback(addressList);
+            }
+        });
+    }
+}
+
+// alchemy_language.sentiment(parameters, function(err, response) {
+//     if (err) {
+//         console.log('error:', err);
+//     } else {
+
+//         // console.log(JSON.stringify(response.docSentiment, null, 2));                                    
+//         if (response.docSentiment.score !== undefined) {
+//             console.log(parameters.text);
+//             console.log(response.docSentiment.score);
+//             aggregate += parseFloat(response.docSentiment.score);
+//         }
+//     }
+
+// });

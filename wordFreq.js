@@ -10,18 +10,10 @@ function wordFrequency(s) {
     const words = s.split(/\s/).sort();
     const wordLength = words.length;
 
-    // http://stackoverflow.com/a/4026828/4186581
+    //Excluding element of an array from another array http://stackoverflow.com/a/4026828/4186581
     Array.prototype.diff = function(a) {
         return this.filter(function(i) { return a.indexOf(i) < 0; });
-    };
-
-    const exclude = (function() {
-        const obj = {}; // object prop checking > in array checking
-        stopWords.forEach(function(i) {
-            obj[stopWords[i]] = true;
-        });
-        return obj;
-    }());
+    }
 
     const counts = {}; // object for math
     const filter = words.diff(stopWords);
@@ -29,12 +21,8 @@ function wordFrequency(s) {
         const sWord = filter[i];
         counts[sWord] = counts[sWord] || 0;
         counts[sWord] += 1;
-        // if (Object.prototype.hasOwnProperty.call(counts, sWord)) {
-        //     console.log(counts[filter]);
-        //     // counts[sWord] = counts[sWord] || 0;
-        //     // counts[sWord]++;
-        // }
-    }
+    };
+
     const arr = [];
     for (sWord in counts) {
         arr.push({
