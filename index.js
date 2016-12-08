@@ -34,14 +34,14 @@ console.log('******** Enter twitter username below ********')
 
 rl.question('Username: ', (username) => {
     console.log(colors.bold('*** Confirming username please wait... ***'));
-    client.get('statuses/user_timeline', { q: `${username}` }, function(error, tweets, response) {
+    client.get('statuses/user_timeline', { screen_name: `${username}` }, function(error, tweets, response) {
         if (!error) {
             console.log('---------------------------------------------');
             console.log('Hello: ', username);
             console.log('---------------------------------------------');
             console.log('What would you like to do?\n1. View Your Tweets Sentiment Analysis\n2. View Your Tweets Word Frequency\n');
             rl.question('Type 1 or 2: ', (answer) => {
-                // console.log('You chose: '+answer);
+
                 if (answer == 1) { // Twitter Sentiment Analysis
                     console.log('---------------------------------------------');
                     console.log(colors.bold.green('Sentiment Analysis'));
@@ -49,9 +49,9 @@ rl.question('Username: ', (username) => {
                     console.log('How many tweets would you like to analyse');
                     console.log('---------------------------------------------');
                     rl.question('Number of tweets: ', (tweetnum) => {
-                        // console.log(tweetnum);
+
                         console.log('*** Analysing ' + tweetnum + ' tweets... ***');
-                        client.get('statuses/user_timeline', { q: `${username}`, count: `${tweetnum}` }, function(error, tweets, response) {
+                        client.get('statuses/user_timeline', { screen_name: `${username}`, count: `${tweetnum}` }, function(error, tweets, response) {
                             var aggregate = [];
                             var count = 0;
                             if (!error) {
@@ -59,33 +59,25 @@ rl.question('Username: ', (username) => {
                                 const tweetLength = obj.tweets.length;
                                 for (i = 0; i <= tweetLength - 1; i++) {
                                     const tweet = obj.tweets[i];
-
-                                    alchemy.lookup('sentiment', 'text', tweet.text)
+                                    var p = alchemy.lookup('sentiment', 'text', tweet.text)
                                         .then(function(result) {
                                             console.log(tweet.text);
-                                            aggregate += parseFloat(result.data.docSentiment.score);
-
-                                            //total = aggregate;
+                                            count += parseFloat(result.data.docSentiment.score) || 0;
                                         })
                                         .catch(function(err) {
                                             //console.log({ status: 'error', message: err });
                                         });
-
-
+                                    aggregate.push(p);
                                 }
-
-                                // if (count === tweetLength) {
-                                //     console.log('Sentiment Analysis: ' + aggregate);
-                                //     console.log('*** Sentiment Analysis Complete ***');
-                                // }
-
-
-                                // if (aggregate >= 1 && aggregate > 0.1) { // positive
-
-                                // } else if (aggregate <= 0.1 && aggregate > -1) { //neutral
-
-                                // }
-
+                                Promise.all(aggregate).then(function(result) {
+                                    // console.log(count);
+                                    return Promise.resolve(count);
+                                }).then(conditions).then(function() {
+                                    console.log('---------------------------------------------')
+                                    console.log('*** Sentiment Analysis Complete ***');
+                                }).catch(function(err) {
+                                    //console.log({ status: 'error', message: err });
+                                });
                             } else {
                                 console.log('Oh no! error');
                             }
@@ -96,31 +88,33 @@ rl.question('Username: ', (username) => {
 
                 } else if (answer == 2) { // Word Frequency count
                     console.log('---------------------------------------------');
-                    console.log(colors.bold.green('Word Frequency'));
+                    console.log(colors.bold.green('Word Frequency(Excluding Stop Words)'));
                     console.log('---------------------------------------------');
                     console.log('*** Analysing please wait... ***');
-                    client.get('statuses/user_timeline', { q: `${username}`, count: 5 }, function(error, tweets, response) {
+                    console.log('---------------------------------------------');
+                    client.get('statuses/user_timeline', { screen_name: `${username}`, count: 10 }, function(error, tweets, response) {
                         if (!error) {
                             const obj = { tweets: tweets };
-                            const tweetLength = obj.tweets.length
-                            const json = JSON.stringify(obj);
+                            const tweetLength = obj.tweets.length;
+
                             for (i = 0; i <= tweetLength - 1; i++) {
+
                                 const tweet = obj.tweets[i];
-                                // console.log(wordFrequency(tweet.text));
                                 const words = wordFrequency(tweet.text);
-                                var iWordsCount = words.length; // count w/o duplicates
+                                var iWordsCount = words.length;
+
+                                console.log(colors.green('Words  =>  Frequencies'));
                                 for (var i = 0; i < iWordsCount; i++) {
                                     var word = words[i];
-                                    console.log('Words  =>  Frequencies'.green);
                                     console.log(word.text + '  =>  ', word.frequency);
                                 }
-
                             }
 
+                            const json = JSON.stringify(obj);
                             fs.writeFileSync('tweets.json', json, { space: 4 });
-
+                            console.log('---------------------------------------------');
                             console.log('*** Analysis Complete ***');
-                            // console.log(tweets);
+                            console.log('---------------------------------------------');
 
                         } else {
                             console.log('Oh no! error');
@@ -133,32 +127,40 @@ rl.question('Username: ', (username) => {
                 }
             })
         } else {
-            console.log('Oh no! error');
+            console.log('Oh no! error, Please confirm your username and try again');
+            r1.close();
         }
     });
     //r1.close();
 });
 
-function getAggregate(tweets) {
-    return new Promise(function(resolve, reject) {
-        var aggregate = 0;
-        var count = 0;
-        const tweetLength = tweets.length;
-        for (i = 0; i <= tweetLength - 1; i++) {
-            const tweet = obj.tweets[i];
-            alchemy.lookup('sentiment', 'text', tweet.text)
-                .then(function(result) {
-                    console.log(tweet.text);
-                    resolve(aggregate += parseFloat(result.data.docSentiment.score) || 0);
-
-                })
-                .catch(function(err) {
-                    //console.log({ status: 'error', message: err });
-                });
-
-        }
-    })
+function conditions(count) {
+    console.log(count)
+    if (count > 0) { // positive
+        return positive();
+    } else if (count == 0) { //neutral
+        return neutral();
+    } else if (count < 0) { // negative
+        return negative;
+        // console.log('*** Sentiment Analysis Complete ***');
+    }
 }
+
+function positive() {
+    console.log(colors.green('Sentiment Analysis: Tweets are Postive'));
+    return Promise.resolve('---------------------------------------------');
+}
+
+function neutral() {
+    console.log(colors.yellow('Sentiment Analysis: Tweets are Neutral'));
+    return Promise.resolve('---------------------------------------------');
+}
+
+function negative() {
+    console.log(colors.red('Sentiment Analysis: Tweets are Negative'));
+    return Promise.resolve('---------------------------------------------');
+}
+
 // fs.readFile('tweets.json', 'utf8', function readFileCallback(err, data) {
 //     if (err) {
 //         console.log(err);
