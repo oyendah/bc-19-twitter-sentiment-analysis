@@ -8,15 +8,11 @@ function wordFrequency(s) {
     s = s.replace(/\n\r/, "\n"); //newline
     s = s.replace(/[^a-zA-Z 0-9]+/g, ''); //special characters
     const words = s.split(/\s/).sort();
-    const wordLength = words.length;
-
-    //Excluding element of an array from another array http://stackoverflow.com/a/4026828/4186581
-    Array.prototype.diff = function(a) {
-        return this.filter(function(i) { return a.indexOf(i) < 0; });
-    }
-
+    const wordLength = words.length;    
+	
     const counts = {}; // object for math
-    const filter = words.diff(stopWords);
+
+    const filter = words.filter(function(i) { return stopWords.indexOf(i) < 0; });
     for (let i = 0; i < filter.length; i++) {
         const sWord = filter[i];
         counts[sWord] = counts[sWord] || 0;

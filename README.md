@@ -24,5 +24,5 @@ Twitter sentiment analysis command line application using JavaScript nodejs
 ## Installation and Setup
 * Navigate to a directory of choice on `terminal`.
 * Clone this repository to your direcory
-  > `https://github.com/oyendah/bc-19-twitter-sentiment-analysis.git`
+> `https://github.com/oyendah/bc-19-twitter-sentiment-analysis.git`
 

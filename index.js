@@ -28,7 +28,7 @@ console.log('******** Enter twitter username below ********')
 
 rl.question('Username: ', (username) => {
     console.log(colors.bold('*** Confirming username please wait... ***'));
-    client.get('statuses/user_timeline', { screen_name: `${username}` }, function(error, tweets, response) {
+    client.get('statuses/user_timeline', { screen_name: username }, function(error, tweets, response) {
         if (!error) {
             console.log('---------------------------------------------');
             console.log('Hello: ', username);
@@ -45,7 +45,7 @@ rl.question('Username: ', (username) => {
                     rl.question('Number of tweets: ', (tweetnum) => {
 
                         console.log('*** Analysing ' + tweetnum + ' tweets... ***');
-                        client.get('statuses/user_timeline', { screen_name: `${username}`, count: `${tweetnum}` }, function(error, tweets, response) {
+                        client.get('statuses/user_timeline', { screen_name: username, count: tweetnum }, function(error, tweets, response) {
                             var aggregate = [];
                             var count = 0;
                             if (!error) {
@@ -86,7 +86,7 @@ rl.question('Username: ', (username) => {
                     console.log('---------------------------------------------');
                     console.log('*** Analysing please wait... ***');
                     console.log('---------------------------------------------');
-                    client.get('statuses/user_timeline', { screen_name: `${username}`, count: 10 }, function(error, tweets, response) {
+                    client.get('statuses/user_timeline', { screen_name: username, count: 10 }, function(error, tweets, response) {
                         if (!error) {
                             const obj = { tweets: tweets };
                             const tweetLength = obj.tweets.length;
@@ -117,7 +117,7 @@ rl.question('Username: ', (username) => {
                     });
                     rl.close();
                 } else {
-                    console.log('Your anwser should be a 1 or 2');
+                    console.log('Your anwser should be 1 or 2');
                 }
             })
         } else {
