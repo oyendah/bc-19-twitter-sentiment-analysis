@@ -13,7 +13,7 @@ Twitter sentiment analysis command line application using JavaScript nodejs
 
   * [Node Alchemy](https://www.npmjs.com/package/node_alchemy) - A promise based JavaScript interface for the Alchemy API, this package enables the app to sentiment analysis on each tweets retrieved.
 
-  * [Promises](https://www.promisejs.org/) - It allows you to associate handlers to an asynchronous action's eventual success value or failure reason
+  * [Promise](https://www.promisejs.org/) - It allows you to associate handlers to an asynchronous action's eventual success value or failure reason
 
   * [.ENV](https://www.npmjs.com/package/dotenv) - This package loads environment variables from .env file.
 
