@@ -2,7 +2,6 @@ require('dotenv').config();
 
 //required modules
 const Twitter = require('twitter'); // twitter API
-//const watson = require('watson-developer-cloud'); //Alchemy API
 const readline = require('readline');
 const Promise = require('promise');
 const fs = require('fs');
@@ -23,7 +22,7 @@ const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-
+console.log(colors.rainbow('Twitter Sentiment Analysis Application'))
 console.log('******** Enter twitter username below ********')
 
 rl.question('Username: ', (username) => {
@@ -37,9 +36,9 @@ rl.question('Username: ', (username) => {
             rl.question('Type 1 or 2: ', (answer) => {
 
                 if (answer == 1) { // Twitter Sentiment Analysis
-                    console.log('---------------------------------------------');
+                    console.log(colors.bold.green('---------------------------------------------'));
                     console.log(colors.bold.green('Sentiment Analysis'));
-                    console.log('---------------------------------------------');
+                    console.log(colors.bold.green('---------------------------------------------'));
                     console.log('How many tweets would you like to analyse');
                     console.log('---------------------------------------------');
                     rl.question('Number of tweets: ', (tweetnum) => {
@@ -56,6 +55,7 @@ rl.question('Username: ', (username) => {
                                     var p = alchemy.lookup('sentiment', 'text', tweet.text)
                                         .then(function(result) {
                                             console.log(tweet.text);
+                                            console.log('');
                                             count += parseFloat(result.data.docSentiment.score) || 0;
                                         })
                                         .catch(function(err) {

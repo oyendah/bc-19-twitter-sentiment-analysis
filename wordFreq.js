@@ -3,34 +3,34 @@ const stopWords = ["a", "about", "above", "above", "across", "after", "afterward
 
 // word count frequency
 function wordFrequency(s) {
-    s = s.replace(/(^\s*)|(\s*$)/gi, ""); //exclude  start and end white-space
-    s = s.replace(/[ ]{2,}/gi, " "); //2 or more space to 1
-    s = s.replace(/\n\r/, "\n"); //newline
-    s = s.replace(/[^a-zA-Z 0-9]+/g, ''); //special characters
-    const words = s.split(/\s/).sort();
-    const wordLength = words.length;    
-	
-    const counts = {}; // object for math
+  s = s.replace(/(^\s*)|(\s*$)/gi, ""); //exclude  start and end white-space
+  s = s.replace(/[ ]{2,}/gi, " "); //2 or more space to 1
+  s = s.replace(/\n\r/, "\n"); //newline
+  s = s.replace(/[^a-zA-Z 0-9]+/g, ''); //special characters
+  const words = s.split(/\s/).sort();
+  const wordLength = words.length;    
+  
+  const counts = {}; // object for math
 
-    const filter = words.filter(function(i) { return stopWords.indexOf(i) < 0; });
-    for (let i = 0; i < filter.length; i++) {
-        const sWord = filter[i];
-        counts[sWord] = counts[sWord] || 0;
-        counts[sWord] += 1;
-    };
+  const filter = words.filter(function(i) { return stopWords.indexOf(i) < 0; });
+  for (let i = 0; i < filter.length; i++) {
+    const sWord = filter[i];
+    counts[sWord] = counts[sWord] || 0;
+    counts[sWord] += 1;
+  };
 
-    const arr = [];
-    for (sWord in counts) {
-        arr.push({
-            text: sWord,
-            frequency: counts[sWord]
-        });
-    }
-    // sort array by descending frequency | http://stackoverflow.com/a/8837505
-    const sorted = arr.sort(function(a, b) {
-        return (a.frequency > b.frequency) ? -1 : ((a.frequency < b.frequency) ? 1 : 0);
+  const arr = [];
+  for (sWord in counts) {
+    arr.push({
+      text: sWord,
+      frequency: counts[sWord]
     });
-    return sorted;
+  }
+  // sort array by descending frequency | http://stackoverflow.com/a/8837505
+  const sorted = arr.sort(function(a, b) {
+    return (a.frequency > b.frequency) ? -1 : ((a.frequency < b.frequency) ? 1 : 0);
+  });
+  return sorted;
 }
 
 module.exports = stopWords;
