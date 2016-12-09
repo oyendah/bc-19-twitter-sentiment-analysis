@@ -9,13 +9,13 @@ Twitter sentiment analysis command line application using JavaScript nodejs
 
 ## Dependencies
 * This application functionality depends on multiple JavaScript packages
-  * [Twitter](https://www.npmjs.com/package/twitter) - Twitter API client library for node.js, this helps the app to retrieve user's tweets.
+  * [Twitter](https://www.npmjs.com/package/twitter) - Twitter API client library for node.js, this package enables the app to retrieve user's tweets.
 
-  * [Node Alchemy](https://www.npmjs.com/package/node_alchemy) - A promise based JavaScript interface for the Alchemy API, it analyse user's tweets.
+  * [Node Alchemy](https://www.npmjs.com/package/node_alchemy) - A promise based JavaScript interface for the Alchemy API, this package enables the app to sentiment analysis on each tweets retrieved.
 
   * [Promises](https://www.promisejs.org/) - It allows you to associate handlers to an asynchronous action's eventual success value or failure reason
 
-  * [.ENV](https://www.npmjs.com/package/dotenv) - This package loads my environment variables from .env file.
+  * [.ENV](https://www.npmjs.com/package/dotenv) - This package loads environment variables from .env file.
 
   * [Colors](https://www.npmjs.com/package/colors) - Adds color to my nodejs console.
 
