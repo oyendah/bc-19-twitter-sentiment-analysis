@@ -22,15 +22,20 @@ const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-console.log(colors.rainbow('Twitter Sentiment Analysis Application'))
-console.log('******** Enter twitter username below ********')
+console.log('');
+console.log(colors.rainbow('********'), colors.bold('Twitter Sentiment Analysis Application'), colors.rainbow('********'));
+console.log('');
+console.log(colors.bold('**** Enter twitter username below ****'));
+console.log('');
 
 rl.question('Username: ', (username) => {
     console.log(colors.bold('*** Confirming username please wait... ***'));
+
     client.get('statuses/user_timeline', { screen_name: username }, function(error, tweets, response) {
         if (!error) {
+            console.log('');
             console.log('---------------------------------------------');
-            console.log('Hello: ', username);
+            console.log('Hello:', username, '!');
             console.log('---------------------------------------------');
             console.log('What would you like to do?\n1. View Your Tweets Sentiment Analysis\n2. View Your Tweets Word Frequency\n');
             rl.question('Type 1 or 2: ', (answer) => {
@@ -42,7 +47,7 @@ rl.question('Username: ', (username) => {
                     console.log('How many tweets would you like to analyse');
                     console.log('---------------------------------------------');
                     rl.question('Number of tweets: ', (tweetnum) => {
-
+                        console.log('');
                         console.log('*** Analysing ' + tweetnum + ' tweets... ***');
                         client.get('statuses/user_timeline', { screen_name: username, count: tweetnum }, function(error, tweets, response) {
                             var aggregate = [];
@@ -81,9 +86,9 @@ rl.question('Username: ', (username) => {
                     })
 
                 } else if (answer == 2) { // Word Frequency count
-                    console.log('---------------------------------------------');
+                    console.log(colors.bold.green('---------------------------------------------'));
                     console.log(colors.bold.green('Word Frequency(Excluding Stop Words)'));
-                    console.log('---------------------------------------------');
+                    console.log(colors.bold.green('---------------------------------------------'));
                     console.log('*** Analysing please wait... ***');
                     console.log('---------------------------------------------');
                     client.get('statuses/user_timeline', { screen_name: username, count: 10 }, function(error, tweets, response) {
@@ -95,17 +100,17 @@ rl.question('Username: ', (username) => {
 
                                 const tweet = obj.tweets[i];
                                 const words = wordFrequency(tweet.text);
-                                var iWordsCount = words.length;
+                                var wordsCount = words.length;
 
                                 console.log(colors.green('Words  =>  Frequencies'));
-                                for (var i = 0; i < iWordsCount; i++) {
+                                for (var i = 0; i < wordsCount; i++) {
                                     var word = words[i];
                                     console.log(word.text + '  =>  ', word.frequency);
                                 }
                             }
 
                             const json = JSON.stringify(obj);
-                            fs.writeFileSync('tweets.json', json, { space: 4 });
+                            fs.writeFileSync('tweets.json', json, { space: 2 });
                             console.log('---------------------------------------------');
                             console.log('*** Analysis Complete ***');
                             console.log('---------------------------------------------');
@@ -125,11 +130,11 @@ rl.question('Username: ', (username) => {
             r1.close();
         }
     });
-    //r1.close();
+
 });
 
 function conditions(count) {
-    // console.log(count)
+
     if (count > 0) { // positive
         return positive();
     } else if (count == 0) { //neutral
