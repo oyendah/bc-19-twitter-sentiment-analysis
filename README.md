@@ -8,18 +8,16 @@ Twitter sentiment analysis command line application using JavaScript nodejs
 * Saves retrieved tweets to json file
 
 ## Dependencies
-* This application functionality depend on multiple JavaScript packages
-  * [Twitter](https://www.npmjs.com/package/twitter) - Twitter API client library for node.js
+* This application functionality depends on multiple JavaScript packages
+  * [Twitter](https://www.npmjs.com/package/twitter) - Twitter API client library for node.js, this helps the app to retrieve user's tweets.
 
-  * [Node Alchemy](https://www.npmjs.com/package/node_alchemy) - A promise based JavaScript interface for the Alchemy API
+  * [Node Alchemy](https://www.npmjs.com/package/node_alchemy) - A promise based JavaScript interface for the Alchemy API, it analyse user's tweets.
 
-  * [Promises](https://www.promisejs.org/) - 
+  * [Promises](https://www.promisejs.org/) - It allows you to associate handlers to an asynchronous action's eventual success value or failure reason
 
-  * [.ENV](https://www.npmjs.com/package/dotenv) - This package loads my environment variables from .env file
+  * [.ENV](https://www.npmjs.com/package/dotenv) - This package loads my environment variables from .env file.
 
-  * [Readling](https://nodejs.org/api/readline.html) - This provides interface to prompt and read users input 
-
-  * [Colors](https://www.npmjs.com/package/colors) - Adds color to my nodejs console
+  * [Colors](https://www.npmjs.com/package/colors) - Adds color to my nodejs console.
 
 ## API Requirements
 * You will need valid Twitter developer credentials in the form of a set of consumer and access tokens/keys. You can get these [here](https://apps.twitter.com/). 
@@ -38,7 +36,7 @@ Twitter sentiment analysis command line application using JavaScript nodejs
 * Install the depenencies
   * `npm install`
 
-* Create .env file in the root and set your variables. 
+* Create .env file in the root and set your API credentials. 
   ```
   TWITTER_CONSUMER_KEY = xxx
   TWITTER_CONSUMER_SECRET = xxx
@@ -48,5 +46,5 @@ Twitter sentiment analysis command line application using JavaScript nodejs
   ALCHEMY_API_KEY = xxx
   ```
 * Run app 
-  `node index`
+  * `node index`
 
